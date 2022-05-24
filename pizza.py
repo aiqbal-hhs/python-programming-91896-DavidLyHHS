@@ -245,10 +245,13 @@ def service_menu(order_cost, topping):
 
 # Function that takes in the users orders and calculates the price
 def order(order_cost):
+    order_loop = 0
     # Will continue to run this code until the code breaks
     while True:
+        order_loop += 1
         # Prints instructions on what actions are available for the user
         pizza_menu()
+        color.write("\nMaximum number of pizzas is 5\n", "STRING")
         color.write("\nOrder using the number next to"
                     " the name of the pizza.", "SYNC")
         color.write("\nTo finish ordering, type 'end'.", "SYNC")
@@ -256,7 +259,7 @@ def order(order_cost):
         # Asks for user input for their order
         new_order = input("\nInput here: ")
         # If the user inputs "end", contact and order information displayed
-        if new_order == "end":
+        if new_order == "end" or order_loop > 5: 
             color.write("\nContact Information:\n", "SYNC")
             color.write(contact, "STRING")
             print("")
@@ -281,12 +284,16 @@ def order(order_cost):
             # If the user input is "no", the users order_list will be cleared
             elif correct == "no":
                 order_list.clear()
+                order_loop = 0
         # Checks to see if the user input is in index_to_pizza dictionary
         elif new_order in index_to_pizza:
+            pizza_cost = index_to_price.get(new_order)
+            new_order + pizza_cost
             # Adds the name of the pizza to the order list
             order_list.append(index_to_pizza.get(new_order))
             # Adds the price of the pizza to the order cost
             order_cost += index_to_price.get(new_order)
+            
             # Displays the topping menu
             print()
             topping_menu()
