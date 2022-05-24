@@ -212,8 +212,6 @@ def service_menu(order_cost, topping):
                     # If the user inputs 'yes', order menus are printed
                     elif information == "yes":
                         print()
-                        pizza_menu()
-                        topping_menu()
                         information_repeat = False
                         contact_repeat = False
                     # If the user does not input 'yes' or 'no', code will loop
@@ -234,9 +232,7 @@ def service_menu(order_cost, topping):
             # Titles and adds the users name into contact dictionary
             contact["Name"] = name.title()
             print("")
-            # Functions are called for menus and for the user to place order
-            pizza_menu()
-            topping_menu()
+            # Functions are called for the user to place an order
             order(order_cost)
         # If the user inputs "3", the user will go to the phone operator menu
         elif service_option == "3":
@@ -252,6 +248,7 @@ def order(order_cost):
     # Will continue to run this code until the code breaks
     while True:
         # Prints instructions on what actions are available for the user
+        pizza_menu()
         color.write("\nOrder using the number next to"
                     " the name of the pizza.", "SYNC")
         color.write("\nTo finish ordering, type 'end'.", "SYNC")
@@ -290,13 +287,16 @@ def order(order_cost):
             order_list.append(index_to_pizza.get(new_order))
             # Adds the price of the pizza to the order cost
             order_cost += index_to_price.get(new_order)
+            # Displays the topping menu
+            print()
+            topping_menu()
             # This code will keep repeating until the code breaks
             while True:
                 # Asks for user input on any toppings they would like to add
                 color.write("\nAdd toppings using the number next"
                             " to the topping name.", "SYNC")
                 color.write("\nTo finish adding toppings, type 'end'.", "SYNC")
-                topping = input("\nInput here: ").strip()
+                topping = input("\nInput here: ").strip().lower()
                 # Checks the name of the topping corresponding to the number
                 if topping in index_to_topping:
                     # Adds the name of the topping to the order list
@@ -307,6 +307,7 @@ def order(order_cost):
                 elif topping == "end":
                     print("\nYour current total order"
                           " cost is ${}".format(order_cost))
+                    print()
                     break
                 # If the user input is neither if/elif, the code will repeat
                 else:
