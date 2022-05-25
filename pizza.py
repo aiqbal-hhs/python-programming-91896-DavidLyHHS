@@ -2,7 +2,7 @@ from collections import namedtuple
 import sys
 import time
 
-# This code checks
+# Raises an error if the user is not on IDLE
 try:
     color = sys.stdout.shell
 except AttributeError:
@@ -53,18 +53,18 @@ index_to_price = {
 
 # Index to pizza
 index_to_pizza = {
-    "1": "\n- Classic Cheese",
-    "2": "\n- Classic Veggie",
-    "3": "\n- Pepperoni",
-    "4": "\n- Beef & Onion",
-    "5": "\n- Hawaiian",
-    "6": "\n- Margherita",
-    "7": "\n- Chicken Deluxe",
-    "8": "\n- Meat Lovers",
-    "9": "\n- Garlic Prawn",
-    "10": "\n- Americano",
-    "11": "\n- Supreme",
-    "12": "\n- Italian",
+    "1": "\n- Classic Cheese         $5.00",
+    "2": "\n- Classic Veggie         $5.00",
+    "3": "\n- Pepperoni              $5.00",
+    "4": "\n- Beef & Onion           $5.00",
+    "5": "\n- Hawaiian               $5.00",
+    "6": "\n- Margherita             $8.50",
+    "7": "\n- Chicken Deluxe         $8.50",
+    "8": "\n- Meat Lovers            $8.50",
+    "9": "\n- Garlic Prawn           $8.50",
+    "10": "\n- Americano             $8.50",
+    "11": "\n- Supreme               $8.50",
+    "12": "\n- Italian               $8.50",
 }
 
 # Creates a namedtuple for the pizza menu
@@ -125,12 +125,12 @@ def topping_menu():
 
 # toppings to price list
 index_to_topping = {
-    "1": " + Extra Cheese",
-    "2": " + Extra Onions",
-    "3": " + Extra Mushroom",
-    "4": " + Extra Pepperoni",
-    "5": " + Extra Olives",
-    "6": " + Extra Ham",
+    "1": " + Extra Cheese          $0.50",
+    "2": " + Extra Onions          $0.50",
+    "3": " + Extra Mushroom        $0.50",
+    "4": " + Extra Pepperoni       $0.50",
+    "5": " + Extra Olives          $0.50",
+    "6": " + Extra Ham             $0.50",
 }
 # Contact information for delivery
 contact = {}
@@ -148,7 +148,7 @@ def menu():
     color.write("'1' to view phone operator\n", "SYNC")
     color.write("'2' to view pizza menu\n", "SYNC")
     color.write("'3' to order pizza\n", "SYNC")
-    color.write("'4' to cancel ordering\n", "SYNC")
+    color.write("'4' to exit phone operator\n", "SYNC")
 
 
 # Service menu function
@@ -172,12 +172,13 @@ def service_menu(order_cost, topping):
             # Repeats the code until contact_repeat = False
             contact_repeat = True
             while contact_repeat is True:
-                # Try and except is used here to force input a number
+                # Try and except is used here to force input an integer 
                 try:
                     color.write("\nPlease state your phone number\n", "SYNC")
                     phone_number = int(input("Input here: ").strip())
                 except ValueError:
-                    color.write("\nPlease input integer only...\n", "COMMENT")
+                    color.write("\nPlease enter an integer (ie: a number which"
+                                " does not have a decimal part).\n", "COMMENT")
                     continue
                 # Adds the phone number into the contact dictionary
                 contact["Phone number"] = phone_number
@@ -259,13 +260,14 @@ def order(order_cost):
         # Asks for user input for their order
         new_order = input("\nInput here: ")
         # If the user inputs "end", contact and order information displayed
-        if new_order == "end" or order_loop > 5: 
+        if new_order == "end" or order_loop > 5:
             color.write("\nContact Information:\n", "SYNC")
             color.write(contact, "STRING")
             print("")
             color.write("\nYour order is:\n", "SYNC")
             view_order()
-            print("\nYour total order cost is ${}".format(order_cost))
+            print("\nYour total order cost is ${:.2f}".format(order_cost))
+            print("\nThis total includes any applied surcharges")
             # User input on whether the users order is correct or not
             color.write("\nIs your order correct?"
                         " Please input 'yes' or 'no'\n", "SYNC")
@@ -285,15 +287,13 @@ def order(order_cost):
             elif correct == "no":
                 order_list.clear()
                 order_loop = 0
+                print()
         # Checks to see if the user input is in index_to_pizza dictionary
         elif new_order in index_to_pizza:
-            pizza_cost = index_to_price.get(new_order)
-            new_order + pizza_cost
             # Adds the name of the pizza to the order list
             order_list.append(index_to_pizza.get(new_order))
             # Adds the price of the pizza to the order cost
             order_cost += index_to_price.get(new_order)
-            
             # Displays the topping menu
             print()
             topping_menu()
@@ -313,7 +313,7 @@ def order(order_cost):
                 # Checks for 'end', where order cost will be displayed
                 elif topping == "end":
                     print("\nYour current total order"
-                          " cost is ${}".format(order_cost))
+                          " cost is ${:.2f}".format(order_cost))
                     print()
                     break
                 # If the user input is neither if/elif, the code will repeat
@@ -331,7 +331,7 @@ def order(order_cost):
         # The code will repeat
         else:
             color.write("\nSorry, that is not one"
-                        "of the pizza options\n", "COMMENT")
+                        " of the pizza options\n", "COMMENT")
 
 
 # Function that shows current orders in the order_list
@@ -370,4 +370,3 @@ while repeat is True:
         repeat = False
     else:
         color.write("That wasn't an option\n", "COMMENT")
-
