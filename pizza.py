@@ -206,12 +206,12 @@ def service_menu(order_cost, topping):
                     # Asks user if contact information is correct
                     information = input("Input here: ").strip().lower()
                     # If the user inputs 'no', code will repeat
-                    if information == "no":
+                    if information == "no" or information == "n":
                         print("\nPlease resubmit your contact information")
                         information_repeat = False
                         continue
                     # If the user inputs 'yes', order menus are printed
-                    elif information == "yes":
+                    elif information == "yes" or information == "y":
                         print()
                         information_repeat = False
                         contact_repeat = False
@@ -272,8 +272,8 @@ def order(order_cost):
             color.write("\nIs your order correct?"
                         " Please input 'yes' or 'no'\n", "SYNC")
             correct = input("Input here: ").strip().lower()
-            # Order confirmed and menu displayed if input is "yes"
-            if correct == "yes":
+            # Order confirmed and menu displayed if these inputs are made
+            if correct == "yes" or correct == "y":
                 color.write(
                     "\nYour order will be ready soon,"
                     " thanks for ordering at Henderson Pizza Palace!\n",
@@ -284,7 +284,7 @@ def order(order_cost):
                 menu()
                 break
             # If the user input is "no", the users order_list will be cleared
-            elif correct == "no":
+            elif correct == "no" or correct == "no":
                 order_list.clear()
                 order_loop = 0
                 print()
