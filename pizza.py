@@ -284,7 +284,7 @@ def order(order_cost):
                 menu()
                 break
             # If the user input is "no", the users order_list will be cleared
-            elif correct == "no" or correct == "no":
+            elif correct == "no" or correct == "n":
                 order_list.clear()
                 order_loop = 0
                 print()
