@@ -217,8 +217,8 @@ def service_menu(order_cost, topping):
                         contact_repeat = False
                     # If the user does not input 'yes' or 'no', code will loop
                     else:
-                        color.write("\nPlease enter a"
-                                    " valid response!\n", "COMMENT")
+                        color.write("\nPlease enter either"
+                                    " 'Yes' or 'No'\n", "COMMENT")
 
             order(order_cost)
             service_repeat = False
@@ -369,4 +369,5 @@ while repeat is True:
         color.write("Thanks for buying from Henderson Pizza Palace!", "STRING")
         repeat = False
     else:
-        color.write("That wasn't an option\n", "COMMENT")
+        color.write("Please enter an integer that is more than"
+                    " (or equal to) 1 and less than (or equal to) 4.\n", "COMMENT")
