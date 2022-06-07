@@ -158,6 +158,7 @@ def service_menu(order_cost, topping):
     color.write("'1' Delivery ($3 surcharge)\n", "SYNC")
     color.write("'2' Pick-up\n", "SYNC")
     color.write("'3' to go back to phone operator menu\n", "SYNC")
+    global service_option
     # Keeps repeating this code until service_repeat = False
     service_repeat = True
     while service_repeat:
@@ -220,7 +221,7 @@ def service_menu(order_cost, topping):
                         color.write("\nPlease enter either"
                                     " 'Yes' or 'No'\n", "COMMENT")
 
-            order(order_cost)
+
             service_repeat = False
 
         # If the user inputs "2", name is asked and menus are printed
@@ -233,12 +234,11 @@ def service_menu(order_cost, topping):
             # Titles and adds the users name into contact dictionary
             contact["Name"] = name.title()
             print("")
-            # Functions are called for the user to place an order
-            order(order_cost)
+            service_repeat = False
         # If the user inputs "3", the user will go to the phone operator menu
         elif service_option == "3":
             menu()
-            break
+            service_repeat = False
         # When if/elif is not met, they will be asked to input a valid number
         else:
             color.write("\nPlease input a valid number\n", "COMMENT")
@@ -365,6 +365,7 @@ while repeat is True:
         menu()
     elif option == "3":
         service_menu(order_cost, topping)
+        order(order_cost)
     elif option == "4":
         color.write("Thanks for buying from Henderson Pizza Palace!", "STRING")
         repeat = False
