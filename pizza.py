@@ -158,7 +158,6 @@ def service_menu(order_cost, topping):
     color.write("'1' Delivery ($3 surcharge)\n", "SYNC")
     color.write("'2' Pick-up\n", "SYNC")
     color.write("'3' to go back to phone operator menu\n", "SYNC")
-    global service_option
     # Keeps repeating this code until service_repeat = False
     service_repeat = True
     while service_repeat:
@@ -173,7 +172,7 @@ def service_menu(order_cost, topping):
             # Repeats the code until contact_repeat = False
             contact_repeat = True
             while contact_repeat is True:
-                # Try and except is used here to force input an integer 
+                # Try and except is used here to force input an integer
                 try:
                     color.write("\nPlease state your phone number\n", "SYNC")
                     phone_number = int(input("Input here: ").strip())
@@ -222,6 +221,7 @@ def service_menu(order_cost, topping):
                                     " 'Yes' or 'No'\n", "COMMENT")
 
 
+            order(order_cost)
             service_repeat = False
 
         # If the user inputs "2", name is asked and menus are printed
@@ -234,6 +234,7 @@ def service_menu(order_cost, topping):
             # Titles and adds the users name into contact dictionary
             contact["Name"] = name.title()
             print("")
+            order(order_cost)
             service_repeat = False
         # If the user inputs "3", the user will go to the phone operator menu
         elif service_option == "3":
@@ -247,80 +248,118 @@ def service_menu(order_cost, topping):
 # Function that takes in the users orders and calculates the price
 def order(order_cost):
     order_loop = 0
+    # Prints out pizza menu
+    pizza_menu()
     # Will continue to run this code until the code breaks
     while True:
         order_loop += 1
         # Prints instructions on what actions are available for the user
-        pizza_menu()
         color.write("\nMaximum number of pizzas is 5\n", "STRING")
         color.write("\nOrder using the number next to"
                     " the name of the pizza.", "SYNC")
+        color.write("\nTo view pizza and topping menu again,"
+                    " type 'menu'.", "SYNC")
         color.write("\nTo finish ordering, type 'end'.", "SYNC")
         color.write("\nTo cancel ordering, type 'cancel'.", "SYNC")
         # Asks for user input for their order
         new_order = input("\nInput here: ")
         # If the user inputs "end", contact and order information displayed
-        if new_order == "end" or order_loop > 5:
+        if new_order == "end" or order_loop == 6:
             color.write("\nContact Information:\n", "SYNC")
             color.write(contact, "STRING")
             print("")
             color.write("\nYour order is:\n", "SYNC")
             view_order()
-            print("\nYour total order cost is ${:.2f}".format(order_cost))
-            print("\nThis total includes any applied surcharges")
-            # User input on whether the users order is correct or not
-            color.write("\nIs your order correct?"
-                        " Please input 'yes' or 'no'\n", "SYNC")
-            correct = input("Input here: ").strip().lower()
-            # Order confirmed and menu displayed if these inputs are made
-            if correct == "yes" or correct == "y":
-                color.write(
-                    "\nYour order will be ready soon,"
-                    " thanks for ordering at Henderson Pizza Palace!\n",
-                    "STRING"
-                )
-                # Clears the order_list
-                order_list.clear()
-                menu()
-                break
-            # If the user input is "no", the users order_list will be cleared
-            elif correct == "no" or correct == "n":
-                order_list.clear()
-                order_loop = 0
-                print()
+            color.write("\nYour total order cost is ${:.2f}"
+                        " (Includes any surcharges)\n".format(order_cost), "STRING")
+            # Keeps repeating this code until correct_repeat = False
+            correct_repeat = True
+            while correct_repeat is True:
+                color.write("\nIs your order correct?"
+                            " Please input 'yes' or 'no'\n", "SYNC")
+                correct = input("Input here: ").strip().lower()
+                # Order confirmed and menu displayed if these inputs are made
+                if correct == "yes" or correct == "y":
+                    color.write(
+                        "\nYour order will be ready soon,"
+                        " thanks for ordering at Henderson Pizza Palace!\n",
+                        "STRING"
+                    )
+                    # Clears the order_list
+                    order_list.clear()
+                    continue_repeat = True
+                    while continue_repeat is True:
+                        color.write("Would you like to place another order?"
+                                    " Please input 'yes' or 'no'\n", "SYNC")
+                        another_order = input("Input here: ").strip().lower()
+                        # Allows the user to continue ordering
+                        if another_order == "yes" or another_order == "y":
+                                    break
+                        elif another_order == "no" or another_order == "n":
+                                    sys.exit()
+                        else:
+                                    color.write("\nPlease enter either"
+                                                " 'Yes' or 'No'\n", "COMMENT")
+        
+                # If the user input is "no", the users order_list will be cleared
+                elif correct == "no" or correct == "n":
+                    order_list.clear()
+                    order_loop = 0
+                    print()
+                    correct_repeat = False
+                else:
+                    color.write("\nPlease enter either"
+                                " 'Yes' or 'No'\n", "COMMENT")
         # Checks to see if the user input is in index_to_pizza dictionary
         elif new_order in index_to_pizza:
             # Adds the name of the pizza to the order list
             order_list.append(index_to_pizza.get(new_order))
             # Adds the price of the pizza to the order cost
             order_cost += index_to_price.get(new_order)
+            # Displays what they have selected and the cost
+            color.write("\nYou selected {}.\n".format(index_to_pizza.get(new_order)), "STRING")
+
             # Displays the topping menu
             print()
             topping_menu()
+            topping_loop = 0
+            # Asks for user input on any toppings they would like to add
+            color.write("\nMaximum number of toppings is 6\n", "STRING")
+            color.write("\nAdd toppings using the number next"
+                        " to the topping name.", "SYNC")
+            color.write("\nTo view pizza and topping menu again,"
+                        " type 'menu'.", "SYNC")
+            color.write("\nTo finish adding toppings, type 'end'.", "SYNC")
             # This code will keep repeating until the code breaks
             while True:
-                # Asks for user input on any toppings they would like to add
-                color.write("\nAdd toppings using the number next"
-                            " to the topping name.", "SYNC")
-                color.write("\nTo finish adding toppings, type 'end'.", "SYNC")
+                topping_loop += 1
                 topping = input("\nInput here: ").strip().lower()
+                # Checks for 'end', where order cost will be displayed
+                if topping == "end" or topping_loop == 7:
+                    topping_loop = 0
+                    color.write("\nYour current order:\n", "SYNC")
+                    view_order()
+                    color.write("\nYour current order cost is ${:.2f}"
+                                " (Includes any surcharges)\n".format(order_cost), "STRING")
+                    print()
+                    break
                 # Checks the name of the topping corresponding to the number
-                if topping in index_to_topping:
+                elif topping in index_to_topping:
                     # Adds the name of the topping to the order list
                     order_list.append(index_to_topping.get(topping))
                     # Adds 50c to the total order_cost for every topping added
                     order_cost += 0.5
-                # Checks for 'end', where order cost will be displayed
-                elif topping == "end":
-                    print("\nYour current total order"
-                          " cost is ${:.2f}".format(order_cost))
-                    print()
-                    break
+                    # Displays what they have selected and the cost
+                    color.write("\nYou selected {}.\n".format(index_to_topping.get(topping)), "STRING")
+                # Displays pizza menu 
+                elif topping == "m" or topping == "menu":
+                    pizza_menu()
                 # If the user input is neither if/elif, the code will repeat
                 else:
                     color.write(
                         "\nThat is not one of the"
                         " topping options.\n", "COMMENT")
+                    topping_loop -= 1
         # Checks to see if the user input is "cancel"
         elif new_order == "cancel":
             # Clears the order list
@@ -328,6 +367,8 @@ def order(order_cost):
             # Displays the phone operator menu
             menu()
             break
+        elif new_order == "m" or new_order == "menu":
+            pizza_menu()
         # The code will repeat
         else:
             color.write("\nSorry, that is not one"
@@ -365,7 +406,6 @@ while repeat is True:
         menu()
     elif option == "3":
         service_menu(order_cost, topping)
-        order(order_cost)
     elif option == "4":
         color.write("Thanks for buying from Henderson Pizza Palace!", "STRING")
         repeat = False
