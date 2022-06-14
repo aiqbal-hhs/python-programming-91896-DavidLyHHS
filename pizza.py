@@ -353,7 +353,8 @@ def order(order_cost):
                     color.write("\nYou selected {}.\n".format(index_to_topping.get(topping)), "STRING")
                 # Displays pizza menu 
                 elif topping == "m" or topping == "menu":
-                    pizza_menu()
+                    print()
+                    topping_menu()
                 # If the user input is neither if/elif, the code will repeat
                 else:
                     color.write(
@@ -368,6 +369,7 @@ def order(order_cost):
             menu()
             break
         elif new_order == "m" or new_order == "menu":
+            print()
             pizza_menu()
         # The code will repeat
         else:
