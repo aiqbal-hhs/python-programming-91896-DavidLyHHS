@@ -219,8 +219,6 @@ def service_menu(order_cost, topping):
                     else:
                         color.write("\nPlease enter either"
                                     " 'Yes' or 'No'\n", "COMMENT")
-
-
             order(order_cost)
             service_repeat = False
 
@@ -259,19 +257,20 @@ def order(order_cost):
                     " the name of the pizza.", "SYNC")
         color.write("\nTo view pizza and topping menu again,"
                     " type 'menu'.", "SYNC")
-        color.write("\nTo finish ordering, type 'end'.", "SYNC")
+        color.write("\nTo finish ordering, type 'finish'.", "SYNC")
         color.write("\nTo cancel ordering, type 'cancel'.", "SYNC")
         # Asks for user input for their order
         new_order = input("\nInput here: ")
-        # If the user inputs "end", contact and order information displayed
-        if new_order == "end" or order_loop == 6:
+        # If the user inputs "finish", contact and order information displayed
+        if new_order == "finish" or order_loop == 6:
             color.write("\nContact Information:\n", "SYNC")
             color.write(contact, "STRING")
             print("")
             color.write("\nYour order is:\n", "SYNC")
             view_order()
             color.write("\nYour total order cost is ${:.2f}"
-                        " (Includes any surcharges)\n".format(order_cost), "STRING")
+                        " (Includes any surcharges)"
+                        "\n".format(order_cost), "STRING")
             # Keeps repeating this code until correct_repeat = False
             correct_repeat = True
             while correct_repeat is True:
@@ -300,8 +299,7 @@ def order(order_cost):
                         else:
                                     color.write("\nPlease enter either"
                                                 " 'Yes' or 'No'\n", "COMMENT")
-        
-                # If the user input is "no", the users order_list will be cleared
+                # If the user input is "no", the order_list will be cleared
                 elif correct == "no" or correct == "n":
                     order_list.clear()
                     order_loop = 0
@@ -317,7 +315,8 @@ def order(order_cost):
             # Adds the price of the pizza to the order cost
             order_cost += index_to_price.get(new_order)
             # Displays what they have selected and the cost
-            color.write("\nYou selected {}.\n".format(index_to_pizza.get(new_order)), "STRING")
+            color.write("\nYou selected {}."
+                        "\n".format(index_to_pizza.get(new_order)), "STRING")
 
             # Displays the topping menu
             print()
@@ -329,18 +328,19 @@ def order(order_cost):
                         " to the topping name.", "SYNC")
             color.write("\nTo view pizza and topping menu again,"
                         " type 'menu'.", "SYNC")
-            color.write("\nTo finish adding toppings, type 'end'.", "SYNC")
+            color.write("\nTo finish adding toppings, type 'finish'.", "SYNC")
             # This code will keep repeating until the code breaks
             while True:
                 topping_loop += 1
                 topping = input("\nInput here: ").strip().lower()
                 # Checks for 'end', where order cost will be displayed
-                if topping == "end" or topping_loop == 7:
+                if topping == "finish" or topping_loop == 7:
                     topping_loop = 0
                     color.write("\nYour current order:\n", "SYNC")
                     view_order()
                     color.write("\nYour current order cost is ${:.2f}"
-                                " (Includes any surcharges)\n".format(order_cost), "STRING")
+                                " (Includes any surcharges)"
+                                "\n".format(order_cost), "STRING")
                     print()
                     break
                 # Checks the name of the topping corresponding to the number
@@ -350,8 +350,12 @@ def order(order_cost):
                     # Adds 50c to the total order_cost for every topping added
                     order_cost += 0.5
                     # Displays what they have selected and the cost
-                    color.write("\nYou selected {}.\n".format(index_to_topping.get(topping)), "STRING")
-                # Displays pizza menu 
+                    color.write(
+                                "\nYou selected {}.\n".format(
+                                    index_to_topping.get(topping)
+                                    ), "STRING"
+                    )
+                # Displays pizza menu
                 elif topping == "m" or topping == "menu":
                     print()
                     topping_menu()
@@ -413,4 +417,5 @@ while repeat is True:
         repeat = False
     else:
         color.write("Please enter an integer that is more than"
-                    " (or equal to) 1 and less than (or equal to) 4.\n", "COMMENT")
+                    " (or equal to) 1 and less than"
+                    " (or equal to) 4.\n", "COMMENT")
