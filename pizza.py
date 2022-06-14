@@ -262,7 +262,7 @@ def order(order_cost):
         # Asks for user input for their order
         new_order = input("\nInput here: ")
         # If the user inputs "finish", contact and order information displayed
-        if new_order == "finish" or order_loop == 6:
+        if new_order == "finish" or new_order == "f" or order_loop == 6:
             color.write("\nContact Information:\n", "SYNC")
             color.write(contact, "STRING")
             print("")
@@ -334,7 +334,7 @@ def order(order_cost):
                 topping_loop += 1
                 topping = input("\nInput here: ").strip().lower()
                 # Checks for 'end', where order cost will be displayed
-                if topping == "finish" or topping_loop == 7:
+                if topping == "finish" or topping == "f" or topping_loop == 7:
                     topping_loop = 0
                     color.write("\nYour current order:\n", "SYNC")
                     view_order()
