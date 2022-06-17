@@ -279,23 +279,22 @@ def order(order_cost):
                 correct = input("Input here: ").strip().lower()
                 # Order confirmed and menu displayed if these inputs are made
                 if correct == "yes" or correct == "y":
-                    color.write(
-                        "\nYour order will be ready soon,"
-                        " thanks for ordering at Henderson Pizza Palace!\n",
-                        "STRING"
-                    )
+                    color.write("\nYour order will be ready soon.\n", "STRING")
                     # Clears the order_list
                     order_list.clear()
                     continue_repeat = True
                     while continue_repeat is True:
-                        color.write("Would you like to place another order?"
+                        color.write("\nWould you like to place another order?"
                                     " Please input 'yes' or 'no'\n", "SYNC")
                         another_order = input("Input here: ").strip().lower()
                         # Allows the user to continue ordering
                         if another_order == "yes" or another_order == "y":
-                                    break
+                            correct_repeat = False
+                            break
                         elif another_order == "no" or another_order == "n":
-                                    sys.exit()
+                            color.write("Thanks for buying from"
+                                        "Henderson Pizza Palace!", "STRING")
+                            sys.exit()
                         else:
                                     color.write("\nPlease enter either"
                                                 " 'Yes' or 'No'\n", "COMMENT")
@@ -367,6 +366,7 @@ def order(order_cost):
                     topping_loop -= 1
         # Checks to see if the user input is "cancel"
         elif new_order == "cancel":
+            color.write("\nCancelling order.\n", "COMMENT")
             # Clears the order list
             order_list.clear()
             # Displays the phone operator menu
